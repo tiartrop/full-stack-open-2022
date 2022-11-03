@@ -33,7 +33,7 @@ const person = new Person({
 });
 
 if (newName) {
-  person.save().then((result) => {
+  person.save().then(() => {
     console.log(`added ${newName} number ${newNumber} to phonebook`);
     mongoose.connection.close();
   });

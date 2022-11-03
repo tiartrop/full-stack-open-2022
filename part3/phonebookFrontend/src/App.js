@@ -90,13 +90,22 @@ const App = () => {
     }
 
     if (!same) {
-      personService.create(personObject).then((res) => {
-        setPersons(persons.concat(res));
-        setMessage({ content: `Added ${newName}`, type: "success" });
-        setTimeout(() => setMessage({ content: null, type: "" }), 5000);
-        setNewName("");
-        setNewNum("");
-      });
+      personService
+        .create(personObject)
+        .then((res) => {
+          setPersons(persons.concat(res));
+          setMessage({ content: `Added ${newName}`, type: "success" });
+          setTimeout(() => setMessage({ content: null, type: "" }), 5000);
+          setNewName("");
+          setNewNum("");
+        })
+        .catch((error) => {
+          setMessage({
+            content: error.response.data.error,
+            type: "error",
+          });
+          setTimeout(() => setMessage({ content: null, type: "" }), 5000);
+        });
     }
   };
 
@@ -111,13 +120,12 @@ const App = () => {
         setTimeout(() => setMessage({ content: null, type: "" }), 5000);
         setPersons(persons.map((person) => (person.id !== id ? person : res)));
       })
-      .catch(() => {
+      .catch((error) => {
         setMessage({
-          content: `Information of ${changePerson.name} has already been removed from server`,
+          content: error.response.data.error,
           type: "error",
         });
         setTimeout(() => setMessage({ content: null, type: "" }), 5000);
-        setPersons(persons.filter((n) => n.id !== id));
       });
   };
 
@@ -130,13 +138,12 @@ const App = () => {
           setTimeout(() => setMessage({ content: null, type: "" }), 5000);
           setPersons(persons.filter((n) => n.id !== person.id));
         })
-        .catch(() => {
+        .catch((error) => {
           setMessage({
-            content: `Information of ${person.name} has already been removed from server`,
+            content: error.response.data.error,
             type: "error",
           });
           setTimeout(() => setMessage({ content: null, type: "" }), 5000);
-          setPersons(persons.filter((n) => n.id !== person.id));
         });
     }
   };
