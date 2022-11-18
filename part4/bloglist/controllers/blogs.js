@@ -1,22 +1,53 @@
-const blogsRouter = require('express').Router()
-const Blog = require('../models/blog')
+const blogsRouter = require("express").Router();
+const Blog = require("../models/blog");
 
-blogsRouter.get('/api/blogs', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-})
+blogsRouter.get("/api/blogs", (req, res) => {
+  Blog.find({}).then((blogs) => {
+    res.json(blogs);
+  });
+});
 
-blogsRouter.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
+blogsRouter.post("/api/blogs", (req, res) => {
+  const blog = new Blog(req.body);
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+  if (!blog.likes) {
+    blog.likes = 0;
+  }
 
-module.exports = blogsRouter
+  if (!blog.title || !blog.url) {
+    return res.status(400).json({
+      error: "title or url is missing",
+    });
+  }
+
+  blog.save().then((result) => {
+    res.status(201).json(result);
+  });
+});
+
+blogsRouter.delete("/api/blogs/:id", (req, res) => {
+  Blog.findByIdAndRemove(req.params.id).then(() => {
+    res.status(204).end();
+  });
+});
+
+blogsRouter.put("/api/blogs/:id", (req, res) => {
+  const body = req.body;
+
+  const person = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+  };
+
+  Blog.findByIdAndUpdate(req.params.id, person, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  }).then((updatedBlog) => {
+    res.json(updatedBlog);
+  });
+});
+
+module.exports = blogsRouter;
