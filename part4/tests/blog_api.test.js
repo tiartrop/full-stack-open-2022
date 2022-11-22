@@ -114,7 +114,7 @@ describe("when there is initially some blogs saved", () => {
       expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
     });
 
-    test("blog without token or url is not added", async () => {
+    test("blog without token is not added", async () => {
       const newBlog = {
         title: "new blog",
         author: "Carol",
@@ -183,6 +183,36 @@ describe("when there is initially some blogs saved", () => {
       const titles = blogsAtEnd.map((b) => b.title);
 
       expect(titles).not.toContain(blogToDelete.title);
+    });
+
+    test("blog without valid token is not deleted", async () => {
+      const newBlog = {
+        title: "new blog",
+        author: "Carol",
+        url: "url-3",
+        likes: 1,
+      };
+
+      await api
+        .post("/api/blogs")
+        .set("authorization", "bearer " + token)
+        .send(newBlog)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToDelete = blogsAtStart.at(-1);
+
+      expect(blogsAtStart).toHaveLength(helper.initialBlogs.length + 1);
+
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .set("authorization", "bearer " + token + 'a')
+        .expect(401);
+
+      const blogsAtEnd = await helper.blogsInDb();
+
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
     });
   });
 
