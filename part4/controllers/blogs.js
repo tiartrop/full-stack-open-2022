@@ -68,13 +68,14 @@ blogsRouter.delete("/:id", async (request, response) => {
 });
 
 blogsRouter.put("/:id", (request, response) => {
-  const body = request.body;
+  const { title, author, url, likes, user } = request.body;
 
   const person = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
+    title: title,
+    author: author,
+    url: url,
+    likes: likes,
+    user: user,
   };
 
   Blog.findByIdAndUpdate(request.params.id, person, {
