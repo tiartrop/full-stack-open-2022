@@ -25,6 +25,7 @@ const NoteForm = ({ createBlog }) => {
         <input
           value={newTitle}
           onChange={({ target }) => setNewTitle(target.value)}
+          placeholder='write here blog title'
         />
       </div>
       <div>
@@ -32,6 +33,7 @@ const NoteForm = ({ createBlog }) => {
         <input
           value={newAuthor}
           onChange={({ target }) => setNewAuthor(target.value)}
+          placeholder='write here blog author'
         />
       </div>
       <div>
@@ -39,6 +41,7 @@ const NoteForm = ({ createBlog }) => {
         <input
           value={newUrl}
           onChange={({ target }) => setNewUrl(target.value)}
+          placeholder='write here blog url'
         />
       </div>
       <button type="submit">create</button>
