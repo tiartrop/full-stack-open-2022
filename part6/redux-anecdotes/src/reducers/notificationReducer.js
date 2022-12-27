@@ -15,14 +15,24 @@ const notificationSlice = createSlice({
   },
 });
 
+function debounce(func, ms=5000) {
+  let timeout;
+  return function () {
+    console.log("timeout", timeout, func,arguments);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, arguments), ms);
+  };
+}
+
+
 export const { createNotification, clearNotification } = notificationSlice.actions;
+
+const clear = debounce((dispatch) => dispatch(clearNotification()));
 
 export const setNotification = (content, time) => {
   return async (dispatch) => {
     dispatch(createNotification(content));
-    setTimeout(() => {
-      dispatch(clearNotification());
-    }, time * 1000);
+    clear(dispatch);
   };
 };
 

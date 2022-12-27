@@ -23,7 +23,7 @@ const Anecdotes = () => {
     return anecdotes;
   });
 
-  const handleClick = async (anecdote) => {
+  const handleClick = (anecdote) => {
     dispatch(voteAnecdote(anecdote));
     dispatch(setNotification(`you voted '${anecdote.content}'`, 5));
   };
