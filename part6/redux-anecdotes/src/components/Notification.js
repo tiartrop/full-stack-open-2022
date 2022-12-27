@@ -9,7 +9,7 @@ const Notification = () => {
   };
   return (
     <div>
-      {notification === "" ? null : <div style={style}>you voted '{notification}'</div>}
+      {notification === "" ? null : <div style={style}>{notification}</div>}
     </div>
   );
 };
