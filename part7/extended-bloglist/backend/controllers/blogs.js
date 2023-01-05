@@ -58,7 +58,13 @@ blogsRouter.post("/:id/comments", async (request, response) => {
 
   const commnet = new Comment({ content, blog: request.params.id });
 
+  const blog = await Blog.findById(request.params.id)
+    .populate("user", { username: 1, name: 1 })
+    .populate("comments", { content: 1 });
+
   const saveComment = await commnet.save();
+  blog.comments = blog.comments ? blog.comments.concat(saveComment._id) : [saveComment._id];
+  await blog.save();
 
   response.status(201).json(saveComment);
 });
