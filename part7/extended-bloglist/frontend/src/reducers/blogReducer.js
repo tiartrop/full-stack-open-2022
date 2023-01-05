@@ -24,11 +24,16 @@ const blogSlice = createSlice({
     },
     setBlogs(state, action) {
       return sortByLikes(action.payload);
+    },
+    appendComment(state, action) {
+      const { content } = action.payload;
+      state[0].comments.push({ content });
+      return state;
     }
   }
 });
 
-export const { addLike, appendBlog, removeBlog, setBlogs } = blogSlice.actions;
+export const { addLike, appendBlog, removeBlog, setBlogs, appendComment } = blogSlice.actions;
 
 export const initializeBlogs = () => {
   return async dispatch => {
@@ -74,12 +79,16 @@ export const likeBlog = blog => {
   };
 };
 
-export const addComment = content => {
+export const createComment = (content, id) => {
   return async dispatch => {
     try {
-      await blogsService.addComment({
-        content
-      });
+      await blogsService.addComment(
+        {
+          content
+        },
+        id
+      );
+      dispatch(appendComment({ content, id }));
       dispatch(setNotification(`comment created`, "success", 5));
     } catch (e) {
       dispatch(setNotification(e.response.data.error, "error", 5));
