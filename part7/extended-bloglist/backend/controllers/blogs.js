@@ -91,18 +91,20 @@ blogsRouter.delete("/:id", async (request, response) => {
   }
 });
 
-blogsRouter.put("/:id", (request, response) => {
+blogsRouter.put("/:id", async (request, response) => {
   const { title, author, url, likes, user } = request.body;
 
   const person = { title, author, url, likes, user };
 
-  Blog.findByIdAndUpdate(request.params.id, person, {
+  const blog = await Blog.findByIdAndUpdate(request.params.id, person, {
     new: true,
     runValidators: true,
     context: "query"
-  }).then(updatedBlog => {
-    response.json(updatedBlog);
-  });
+  })
+    .populate("user", { username: 1, name: 1 })
+    .populate("comments", { content: 1 });
+
+  response.json(blog);
 });
 
 module.exports = blogsRouter;
