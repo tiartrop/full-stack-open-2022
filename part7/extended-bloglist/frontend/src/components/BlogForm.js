@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { Button, Stack, TextField } from "@mui/material";
+
 import { useField } from "../hooks.js";
 import { createBlog } from "../reducers/blogReducer.js";
 
@@ -30,24 +32,19 @@ const BlogForm = ({ togglableRef }) => {
 
   return (
     <form onSubmit={addBlog}>
-      <div>
-        <span>title:</span>
-        <input id="title-input" {...newTitle} placeholder="write here blog title" />
-      </div>
-      <div>
-        <span>author:</span>
-        <input id="author-input" {...newAuthor} placeholder="write here blog author" />
-      </div>
-      <div>
-        <span>url:</span>
-        <input id="url-input" {...newUrl} placeholder="write here blog url" />
-      </div>
-      <button id="create-button" type="submit">
-        create
-      </button>
-      <button type="reset" onClick={handleReset}>
-        reset
-      </button>
+      <Stack spacing={{ xs: 1, md: 2 }} mb={2}>
+        <TextField {...newTitle} label="title" size="small" />
+        <TextField {...newAuthor} label="author" size="small" />
+        <TextField {...newUrl} label="url" size="small" />
+      </Stack>
+      <Stack direction="row" spacing={2}>
+        <Button variant="contained" id="create-button" type="submit">
+          create
+        </Button>
+        <Button variant="outlined" type="reset" onClick={handleReset}>
+          reset
+        </Button>
+      </Stack>
     </form>
   );
 };

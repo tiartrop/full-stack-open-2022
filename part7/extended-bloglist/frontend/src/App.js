@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 
+import { Container } from "@mui/material";
+
 import LoginForm from "./components/LoginForm";
 import Blogs from "./components/Blogs";
 import BlogForm from "./components/BlogForm";
@@ -25,17 +27,15 @@ const App = () => {
 
   if (!user) {
     return (
-      <div>
-        <h2>log in to application</h2>
+      <Container maxWidth="sm">
         <Notification />
         <LoginForm />
-      </div>
+      </Container>
     );
   }
 
-
   return (
-    <div>
+    <Container maxWidth="sm">
       <LoginInfo />
       <Notification />
       <Routes>
@@ -55,7 +55,7 @@ const App = () => {
         <Route path="/users" element={<Users />} />
         <Route path="/blogs/:id" element={<BlogInfo />} />
       </Routes>
-    </div>
+    </Container>
   );
 };
 

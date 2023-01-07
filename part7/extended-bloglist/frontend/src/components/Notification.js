@@ -1,14 +1,15 @@
 import { connect } from "react-redux";
+import { Alert } from "@mui/material";
 
 const Notification = ({ notification }) => {
   if (notification.content === null) {
     return null;
   }
   if (notification.type === "success") {
-    return <div className="success">{notification.content}</div>;
+    return <Alert severity="success" style={{ marginTop: "20px" }} >{notification.content}</Alert>;
   }
   if (notification.type === "error") {
-    return <div className="error">{notification.content}</div>;
+    return <Alert severity="error" style={{ marginTop: "20px" }} >{notification.content}</Alert>;
   }
 };
 

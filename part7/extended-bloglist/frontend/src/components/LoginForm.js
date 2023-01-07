@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { Button, Stack, TextField } from "@mui/material";
 
 import { useField } from "../hooks.js";
 import { userLogin } from "../reducers/loginReducer.js";
@@ -21,19 +22,18 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input id="username" name="Username" {...username} />
-      </div>
-      <div>
-        password
-        <input id="password" type="password" name="Password" {...password} />
-      </div>
-      <button id="login-button" type="submit">
-        login
-      </button>
-    </form>
+    <Stack width={{ xs: 320, sm: 400, md: 500 }} mx={"auto"}>
+      <h2>log in to application</h2>
+      <form onSubmit={handleLogin}>
+        <Stack spacing={{ xs: 1, md: 2 }} mb={2}>
+          <TextField {...username} label="username" size="small" />
+          <TextField type="password" {...password} label="password" size="small" />
+          <Button variant="contained" id="login-button" type="submit">
+            login
+          </Button>
+        </Stack>
+      </form>
+    </Stack>
   );
 };
 

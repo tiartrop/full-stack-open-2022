@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 import { initializeUsers } from "../reducers/usersReducer";
 
@@ -19,22 +19,26 @@ const Users = () => {
   return (
     <div>
       <h2>Users</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>blogs created</th>
-          </tr>
-          {users.map(u => (
-            <tr key={u.name}>
-              <td>
-                <Link to={`/users/${u.id}`}>{u.name}</Link>
-              </td>
-              <td>{u.blogs?.length || ""}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead style={{ backgroundColor: "#eee" }}>
+            <TableRow>
+              <TableCell>name</TableCell>
+              <TableCell>blogs created</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map(u => (
+              <TableRow key={u.name}>
+                <TableCell>
+                  <Link href={`/users/${u.id}`} underline="hover">{u.name}</Link>
+                </TableCell>
+                <TableCell>{u.blogs?.length || ""}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AppBar, Button, Toolbar } from "@mui/material";
 
 import { userLogout } from "../reducers/loginReducer";
 
@@ -13,26 +14,18 @@ const LoginInfo = () => {
     navigate("/");
   };
 
-  const menuStyle = {
-    position: "sticky",
-    top: "20px",
-    padding: "0 5px",
-    width: "320px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  };
-
   return (
-    <div style={{ background: "#e4e4e4" }}>
-      <div style={menuStyle}>
-        <Link to="/">blogs</Link>
-        <Link to="/users">users</Link>
-        <span>{user.name} logged in</span>
-        <button onClick={handelLogout}>logout</button>
+    <AppBar position="static" style={{ background: "#ddd" }}>
+      <Toolbar>
+        <Button onClick={() => navigate("/")}>blogs</Button>
+        <Button onClick={() => navigate("/users")}>users</Button>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}>
+          <span style={{ color: "#333", marginRight: "10px" }}>{user.name} logged in</span>
+          <Button onClick={handelLogout}>logout</Button>
+        </div>
         <br />
-      </div>
-    </div>
+      </Toolbar>
+    </AppBar>
   );
 };
 

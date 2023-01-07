@@ -1,28 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
 
 import { initializeBlogs } from "../reducers/blogReducer";
 
 const Blog = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingBottom: 5,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5
-  };
-
   return (
-    <div className="blog" style={blogStyle}>
-      <div id="blog-head">
-        <Link to={`/blogs/${blog.id}`}>
-          {blog.title} {blog.author}
-        </Link>
-      </div>
-    </div>
+    <TableRow key={blog.id}>
+      <TableCell>
+        <Link href={`/blogs/${blog.id}`} underline="hover">{blog.title}</Link>
+      </TableCell>
+      <TableCell align="right">{blog.author}</TableCell>
+    </TableRow>
   );
 };
 
@@ -38,12 +31,32 @@ const Blogs = () => {
     dispatch(initializeBlogs());
   }, [dispatch]);
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14
+    }
+  }));
+
   return (
-    <div>
-      {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
-    </div>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Title</StyledTableCell>
+            <StyledTableCell align="right">Author</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {blogs.map(blog => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

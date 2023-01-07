@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 import { initializeUserById } from "../reducers/usersReducer";
 
@@ -21,12 +22,22 @@ const BlogsByUser = () => {
   return (
     <div>
       <h2>{user.name}</h2>
-      <h4>added blogs</h4>
-      <ul>
-        {user.blogs.map((b, i) => (
-          <li key={i}>{b.title}</li>
-        ))}
-      </ul>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead style={{ backgroundColor: "#eee" }}>
+            <TableRow>
+              <TableCell>added blogs</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {user.blogs.map(b => (
+              <TableRow key={b.id}>
+                <TableCell>{b.title}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
